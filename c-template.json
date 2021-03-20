@@ -1,0 +1,325 @@
+        "VPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": String,
+                "EnableDnsSupport": Boolean,
+                "EnableDnsHostnames": Boolean,
+                "InstanceTenancy": String,
+                "Tags": [ Resource Tag, ... ]
+            }
+        },
+        "PublicSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": String,
+                "CidrBlock": String,
+                "MapPublicIpOnLaunch": Boolean,
+                "Tags": [ Resource Tag, ... ],
+                "VpcId": { "Ref": String }
+            }
+        },
+        "PrivateSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": String,
+                "CidrBlock": String,
+                "MapPublicIpOnLaunch": Boolean,
+                "Tags": [ Resource Tag, ... ],
+                "VpcId": { "Ref": String }
+            }
+        },
+        "GatewayToInternet": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [ Resource Tag, ... ]
+            }
+        },
+        "NATInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "AvailabilityZone": String,
+                "BlockDeviceMappings": [ EC2 Block Device Mapping, ... ],
+                "DisableApiTermination": Boolean,
+                "EbsOptimized": Boolean,
+                "IamInstanceProfile": String,
+                "ImageId": String,
+                "InstanceInitiatedShutdownBehavior": String,
+                "InstanceType": String,
+                "KernelId": String,
+                "KeyName": String,
+                "Monitoring": Boolean,
+                "NetworkInterfaces": [ EC2 Network Interface, ... ],
+                "PlacementGroupName": String,
+                "PrivateIpAddress": String,
+                "RamdiskId": String,
+                "SecurityGroupIds": [ String, ... ],
+                "SecurityGroups": [ String, ... ],
+                "SourceDestCheck": Boolean,
+                "SsmAssociations": [ SSMAssociation, ... ]
+                "SubnetId": String,
+                "Tags": [ Resource Tag, ... ],
+                "Tenancy": String,
+                "UserData": String,
+                "Volumes": [ EC2 MountPoint, ... ],
+                "AdditionalInfo": String
+            }
+        },
+        "RoutesForPublicSubnet": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": String,
+                "Tags": [ Resource Tag, ... ]
+            }
+        },
+        "RoutesForPrivateSubnet": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": String,
+                "Tags": [ Resource Tag, ... ]
+            }
+        },
+        "GenericNACL": {
+            "Type": "AWS::EC2::NetworkAcl",
+            "Properties": {
+                "Tags": [ Resource Tag, ... ],
+                "VpcId": String
+            }
+        },
+
+        "GatewayAttachmentToVPC": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": String,
+                "VpcId": String,
+                "VpnGatewayId": String
+            }
+        },
+        "RouteToGateway": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "DestinationCidrBlock": String,
+                "GatewayId": String,
+                "InstanceId": String,
+                "NetworkInterfaceId": String,
+                "RouteTableId": String,
+                "VpcPeeringConnectionId": String
+            }
+        },
+        "RouteToNat": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "DestinationCidrBlock": String,
+                "GatewayId": String,
+                "InstanceId": String,
+                "NetworkInterfaceId": String,
+                "RouteTableId": String,
+                "VpcPeeringConnectionId": String
+            }
+        },
+        "NACLInboundEntry": {
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "CidrBlock": String,
+                "Egress": Boolean,
+                "Icmp": EC2 ICMP,
+                "NetworkAclId": String,
+                "PortRange": EC2 PortRange,
+                "Protocol": Integer,
+                "RuleAction": String,
+                "RuleNumber": Integer
+            }
+        },
+        "NACLOutboundEntry": {
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "CidrBlock": String,
+                "Egress": Boolean,
+                "Icmp": EC2 ICMP,
+                "NetworkAclId": String,
+                "PortRange": EC2 PortRange,
+                "Protocol": Integer,
+                "RuleAction": String,
+                "RuleNumber": Integer
+            }
+        },
+        "NACLBindingForPublicSubnet": {
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "Properties": {
+                "SubnetId": String ,
+                "NetworkAclId": String
+            }
+        },
+        "NACLBindingForPrivateSubnet": {
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "Properties": {
+                "SubnetId": String ,
+                "NetworkAclId": String
+            }
+        },
+        "RoutesBindingForPublicSubnet": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": String,
+                "SubnetId": String,
+            }
+        },
+        "RoutesBindingForPrivateSubnet": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": String,
+                "SubnetId": String,
+            }
+        },
+        "LoadBalancer": {
+            "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+            "Properties": {
+                "AccessLoggingPolicy": AccessLoggingPolicy,
+                "AppCookieStickinessPolicy": [ AppCookieStickinessPolicy, ... ],
+                "AvailabilityZones": [ String, ... ],
+                "ConnectionDrainingPolicy": ConnectionDrainingPolicy,
+                "ConnectionSettings": ConnectionSettings,
+                "CrossZone": Boolean,
+                "HealthCheck": HealthCheck,
+                "Instances": [ String, ... ],
+                "LBCookieStickinessPolicy": [ LBCookieStickinessPolicy, ... ],
+                "LoadBalancerName": String,
+                "Listeners": [ Listener, ... ],
+                "Policies": [ ElasticLoadBalancing Policy, ... ],
+                "Scheme": String,
+                "SecurityGroups": [ Security Group, ... ],
+                "Subnets": [ String, ... ],
+                "Tags": [ Resource Tag, ... ]
+            }
+        },
+        "InstancesGroup": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {
+                "AvailabilityZones": [ String, ... ],
+                "Cooldown": String,
+                "DesiredCapacity": String,
+                "HealthCheckGracePeriod": Integer,
+                "HealthCheckType": String,
+                "InstanceId": String,
+                "LaunchConfigurationName": String,
+                "LoadBalancerNames": [ String, ... ],
+                "MaxSize": String,
+                "MetricsCollection": [ MetricsCollection, ... ],
+                "MinSize": String,
+                "NotificationConfigurations": [ NotificationConfigurations, ... ],
+                "PlacementGroup": String,
+                "Tags": [ Auto Scaling Tag, ..., ],
+                "TerminationPolicies": [ String, ..., ],
+                "VPCZoneIdentifier": [ String, ... ]
+            },
+        },
+                "InstancesConfig": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Properties": {
+                "AssociatePublicIpAddress": Boolean,
+                "BlockDeviceMappings": [ BlockDeviceMapping, ... ],
+                "ClassicLinkVPCId": String,
+                "ClassicLinkVPCSecurityGroups": [ String, ... ],
+                "EbsOptimized": Boolean,
+                "IamInstanceProfile": String,
+                "ImageId": String,
+                "InstanceId": String,
+                "InstanceMonitoring": Boolean,
+                "InstanceType": String,
+                "KernelId": String,
+                "KeyName": String,
+                "PlacementTenancy": String,
+                "RamDiskId": String,
+                "SecurityGroups": [ SecurityGroup, ... ],
+                "SpotPrice": String,
+                "UserData": String
+            }
+        },
+ "DynamoTableForTodos": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [{
+            "AttributeName": "id",
+            "AttributeType": "S"
+        }],
+        "KeySchema": [{
+            "AttributeName": "id",
+            "KeyType": "HASH"
+        }],
+        "ProvisionedThroughput": {
+            "ReadCapacityUnits": { "Ref": "TableThroughput" },
+            "WriteCapacityUnits": { "Ref": "TableThroughput" }
+        }
+      }
+    },
+        "DynamoAccessRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": { JSON },
+                "ManagedPolicyArns": [ String, ... ],
+                "Path": String,
+                "Policies": [ Policies, ... ]
+            }
+        },
+        "DynamoAccessInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": String,
+                "Roles": [ IAM Roles ]
+            }
+        },
+    "DynamoAccessRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": { "Service": ["ec2.amazonaws.com"] },
+              "Action": ["sts:AssumeRole"]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+        ],
+        "Path": "/"
+      }
+    },
+    "DynamoAccessInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [{ "Ref": "DynamoAccessRole" }]
+      }
+    },
+        "LBToInstancesSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": String,
+                "SecurityGroupEgress": [ Security Group Rule, ... ],
+                "SecurityGroupIngress": [ Security Group Rule, ... ],
+                "Tags": [ Resource Tag, ... ],
+                "VpcId": String
+            }
+        },
+        "InternetToLBSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": String,
+                "SecurityGroupEgress": [ Security Group Rule, ... ],
+                "SecurityGroupIngress": [ Security Group Rule, ... ],
+                "Tags": [ Resource Tag, ... ],
+                "VpcId": String
+            }
+        },
+        "InstancesToNATSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": String,
+                "SecurityGroupEgress": [ Security Group Rule, ... ],
+                "SecurityGroupIngress": [ Security Group Rule, ... ],
+                "Tags": [ Resource Tag, ... ],
+                "VpcId": String
+            }
+        }
