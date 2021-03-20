@@ -1,7 +1,11 @@
-Desired Architecture
-This diagram consists of the following:
+
 ![Capture](https://user-images.githubusercontent.com/77119427/111888348-9f617080-89d3-11eb-88bd-5f90aa1f1f45.PNG)
 
+
+
+
+Desired Architecture
+This diagram consists of the following:
 A two-tier VPC with one public subnet and one private subnet
 An Internet Gateway in the VPC
 An ELB in the public subnet
